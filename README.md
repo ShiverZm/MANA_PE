@@ -75,6 +75,13 @@ MANA_PE 是一个功能完整的 PE 文件解析库，可以解析和分析 Wind
    bin\MANA_PE.exe
    ```
 
+### 构建产物说明
+
+构建完成后，会在以下目录生成文件：
+
+- **可执行文件**: `build/bin/MANA_PE.exe` - 主程序
+- **静态库**: `build/lib/mana_pe_lib.lib` - PE 解析库（可在其他项目中使用）
+
 ### 使用 Visual Studio
 
 1. 打开 Visual Studio
@@ -154,9 +161,10 @@ int main() {
 
 ```
 MANA_PE/
-├── CMakeLists.txt          # CMake 构建配置文件
+├── CMakeLists.txt          # 根目录 CMake 配置文件（项目配置）
 ├── README.md               # 项目说明文档
 └── src/                    # 源代码目录
+    ├── CMakeLists.txt      # 源代码目录 CMake 配置（构建逻辑）
     ├── main.cpp            # 主程序入口
     ├── mana_pe.h/cpp       # PE 解析器核心类
     ├── PE_structs.h        # PE 结构定义
@@ -170,6 +178,13 @@ MANA_PE/
     ├── core.h              # 核心工具
     └── checked.h           # 检查工具
 ```
+
+### 构建产物
+
+项目构建后会生成以下产物：
+
+- **静态库**: `lib/mana_pe_lib.lib` (Windows) 或 `lib/libmana_pe_lib.a` (Unix)
+- **可执行文件**: `bin/MANA_PE.exe` (Windows) 或 `bin/MANA_PE` (Unix)
 
 ## API 文档
 
@@ -192,6 +207,37 @@ MANA_PE/
 
 扩展的 PE 解析类，继承自 `MANA_PE`，提供更灵活的解析接口。
 
+## 作为库使用
+
+本项目构建后会生成静态库 `mana_pe_lib`，可以在其他 CMake 项目中使用：
+
+### 在其他 CMake 项目中使用
+
+1. **将 MANA_PE 作为子模块添加到你的项目**：
+   ```cmake
+   add_subdirectory(path/to/MANA_PE)
+   ```
+
+2. **链接库到你的目标**：
+   ```cmake
+   target_link_libraries(your_target PRIVATE mana_pe_lib)
+   ```
+
+3. **包含头文件**：
+   ```cpp
+   #include "mana_pe.h"
+   #include "resources.h"
+   // 其他需要的头文件
+   ```
+
+### 手动集成
+
+如果不想使用 CMake，也可以手动链接：
+
+1. 将 `src/` 目录下的所有 `.h` 和 `.cpp` 文件（除 `main.cpp` 外）添加到你的项目
+2. 将 `src/` 目录添加到包含路径
+3. 链接生成的静态库文件
+
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request！
@@ -202,4 +248,5 @@ MANA_PE/
 - 初始版本
 - 支持基本的 PE 文件解析功能
 - 支持导入表、导出表、资源表等解析
+- 模块化 CMake 项目结构（库和可执行文件分离）
 
