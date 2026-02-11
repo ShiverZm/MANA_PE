@@ -1,0 +1,7 @@
+﻿#ifndef SRC_PE_ATTRIBUTES_INCLUDE_MANAPE_IMPORTS_H_
+#define SRC_PE_ATTRIBUTES_INCLUDE_MANAPE_IMPORTS_H_
+#include "PE_structs.h"
+
+namespace mana {}
+
+#endif  // SRC_PE_ATTRIBUTES_INCLUDE_MANAPE_IMPORTS_H_
